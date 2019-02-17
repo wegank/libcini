@@ -12,7 +12,7 @@ Prebuilt packages are available for Debian / Ubuntu (64-bit) and Windows (32-bit
 ### Linux / macOS
 Simply `make` or `make deb` after a git clone. 
 
-Make sure that you have `libsdl-ttf2.0-dev` (`sdl2_ttf` on Arch and macOS, with Homebrew) installed.
+Make sure that you have `libsdl2-ttf-dev` (`sdl2_ttf` on Arch and macOS, with Homebrew) installed.
 
 ### Windows
 To compile under MinGW, install Win-builds with default components, then manually download and extract `sdl2_ttf` to the same directory.
