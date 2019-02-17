@@ -1,9 +1,9 @@
 Package: libcini
-Version: 2.0-3
+Version: 2.0-4
 Architecture: amd64
 Maintainer: Weijia Wang <example@upmc.fr>
 Installed-Size: 1024
-Depends: libc6 (>= 2.24), libsdl-ttf2.0-0, libsdl1.2debian (>= 1.2.15)
+Depends: libc6 (>= 2.24), libsdl2-ttf-2.0-0, libsdl2-2.0-0
 Section: utils
 Priority: optional
 Description: A simple and easy-to-use C initiation library
@@ -15,5 +15,5 @@ Description: A simple and easy-to-use C initiation library
  .
  - Simple pseudo-random functions
  .
- - Minimal graphic library based on SDL
+ - Minimal graphic library based on SDL2
  .

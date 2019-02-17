@@ -1,12 +1,15 @@
 #include "cini_graphic.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 
 // global var used to memorize cursor position when clic
 
 static unsigned int clic_posx;
 static unsigned int clic_posy;
+
+// SDL2 migration
+static SDL_Window *window = NULL;
 
 void CINI_open_display(int width, int height, Uint32 flags)
 {
@@ -28,14 +31,17 @@ void CINI_open_display(int width, int height, Uint32 flags)
 
   // Initialized windowed mode with given size and flags.
 
-  SDL_SetVideoMode(width, height, 0, flags);
+  window = SDL_CreateWindow("Default",
+                            SDL_WINDOWPOS_UNDEFINED,
+                            SDL_WINDOWPOS_UNDEFINED,
+                            width, height, flags);
 
+  // WIP: Enable key repeat
+  //     (i.e.: when a key is kept down, the keyboard
+  //            event is repeteadly triggered).
 
-  // Enable key repeat (i.e.: when a key is kept down, the keyboard
-  // event is repeteadly triggered).
-
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_INTERVAL / 4,
-		      SDL_DEFAULT_REPEAT_DELAY / 12);
+  // SDL1 : SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_INTERVAL / 4,
+  //                     SDL_DEFAULT_REPEAT_DELAY / 12);
 
   // Start TTF engine.
   TTF_Init();
@@ -46,25 +52,26 @@ void CINI_open_fullscreen()
 {
   // Open fullscreen display in 640x480 resolution (anything else is
   // a bit of waste!).
-  CINI_open_display(640, 480, SDL_HWSURFACE | SDL_HWACCEL |
-		    SDL_DOUBLEBUF | SDL_FULLSCREEN);
+  CINI_open_display(640, 480, SDL_SWSURFACE | SDL_RLEACCEL |
+		    SDL_RENDERER_PRESENTVSYNC | SDL_WINDOW_FULLSCREEN);
 }
 
 void CINI_open_window(int width, int height, string title)
 {
   // Open window.
-  CINI_open_display(width, height, SDL_HWSURFACE | SDL_HWACCEL |
-		    SDL_DOUBLEBUF);  
+  CINI_open_display(width, height, SDL_SWSURFACE | SDL_RLEACCEL |
+		    SDL_RENDERER_PRESENTVSYNC);  
 
   // Set caption.
-  SDL_WM_SetCaption(title, 0);
+  SDL_SetWindowTitle(window, title);
+  // SDL1: SDL_WM_SetCaption(title, 0);
 }
 
 
 
 SDL_Surface *CINI_get_screen(void)
 {
-  SDL_Surface *screen = SDL_GetVideoSurface();
+  SDL_Surface *screen = SDL_GetWindowSurface(window);
 
   if(screen == NULL) {
     fprintf(stderr, "Erreur: tentative d'appel à une primitives "
@@ -96,10 +103,8 @@ void CINI_close_fullscreen()
 
 bool CINI_key_down() {
    SDL_Event event;
-   SDL_Surface *screen;
-
-  screen = CINI_get_screen();
-  SDL_Flip(screen);
+   
+  SDL_UpdateWindowSurface(window);
    if(SDL_PollEvent(&event)) {
       switch (event.type) {
          case SDL_KEYDOWN:
@@ -114,12 +119,10 @@ bool CINI_key_down() {
 void CINI_loop_with_keyboard(CINI_keyboard_delegate kd)
 {
   SDL_Event event;
-  SDL_Surface *screen;
   int running = 1;
 
   // Redraw backbuffer.
-  screen = CINI_get_screen();
-  SDL_Flip(screen);
+  SDL_UpdateWindowSurface(window);
 
   while(running)
   {
@@ -143,7 +146,7 @@ void CINI_loop_with_keyboard(CINI_keyboard_delegate kd)
 	      running = 0;
 	    
 	    // User might have drawn something.
-	    SDL_Flip(screen);
+	    SDL_UpdateWindowSurface(window);
 	    SDL_Delay(2);
 	  }
 	  
@@ -163,11 +166,9 @@ void CINI_loop_with_keyboard(CINI_keyboard_delegate kd)
 int CINI_loop_until_keydown()
 {
   SDL_Event event;
-  SDL_Surface *screen;
 
   // Redraw backbuffer.
-  screen = CINI_get_screen();
-  SDL_Flip(screen);
+  SDL_UpdateWindowSurface(window);
 
   while(1)
   {
@@ -194,11 +195,9 @@ int CINI_loop_until_keydown()
 int CINI_loop_until_keyup()
 {
   SDL_Event event;
-  SDL_Surface *screen;
 
   // Redraw backbuffer.
-  screen = CINI_get_screen();
-  SDL_Flip(screen);
+  SDL_UpdateWindowSurface(window);
 
   while(1)
   {
@@ -225,11 +224,9 @@ int CINI_loop_until_keyup()
 int CINI_loop_until_clic()
 {
   SDL_Event event;
-  SDL_Surface *screen;
 
   // Redraw backbuffer.
-  screen = CINI_get_screen();
-  SDL_Flip(screen);
+  SDL_UpdateWindowSurface(window);
 
   while(1)
   {

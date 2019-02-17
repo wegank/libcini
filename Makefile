@@ -15,7 +15,7 @@ OBJECTS = $(SOURCES:$(SOURCEDIR)/%.c=%.o)
 LIBRARY = libcini.so
 
 OBJ_CFLAGS  = -c -Wall -fPIC
-CFLAGS      = -shared -Wl,-soname,$(LIBRARY) -lSDL_ttf -lSDL
+CFLAGS      = -shared -Wl,-soname,$(LIBRARY) -lSDL2_ttf -lSDL2
 
 all: $(SOURCES) $(LIBRARY)
 	mkdir -p $(LIBDIR) $(INCLUDEDIR) $(SHAREDIR)
