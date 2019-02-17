@@ -1,7 +1,11 @@
 #include "cini_core.h"
 
 #ifndef FONTFILE
+#ifdef __linux__
+#define FONTFILE "/usr/share/libcini/font.ttf"
+#else
 #define FONTFILE "font.ttf"
+#endif
 #endif
 
 CINI_color *CINI_parse_color(char *color_str);

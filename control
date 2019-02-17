@@ -2,7 +2,7 @@ Package: libcini
 Version: 2.0-4
 Architecture: amd64
 Maintainer: Weijia Wang <example@upmc.fr>
-Installed-Size: 1024
+Installed-Size: 433
 Depends: libc6 (>= 2.24), libsdl2-ttf-2.0-0, libsdl2-2.0-0
 Section: utils
 Priority: optional
