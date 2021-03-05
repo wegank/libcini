@@ -9,7 +9,7 @@ libcini is a simple and easy-to-use library for learning the C language.
 Prebuilt packages are available for Debian / Ubuntu (64-bit) and Windows (32-bit).
 
 ## Build from source
-### Debian / Ubuntu
+### Linux / macOS
 ```
 mkdir build
 cd build
