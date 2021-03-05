@@ -123,7 +123,13 @@ int CINI_random(int min, int max) {
     static int premiere_fois = true;
     if (premiere_fois) {
         premiere_fois = false;
+#ifdef _WIN32
+        srand(time(NULL));
+    }
+    return min + ((int)rand() % (max - min + 1));
+#else
         srandom(time(NULL));
     }
     return min + ((int)random() % (max - min + 1));
+#endif
 }

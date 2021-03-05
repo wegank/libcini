@@ -85,7 +85,7 @@ int RenderTextToScreen_Partial(char *fontname, char *color, char *text, int x, i
 #define NO_FUNCDEF
 
 int RenderTextToScreen(char *text, char *color, int x, int y) {
-#ifdef WIN32
+#ifdef _WIN32
     char *path = getenv ("CINIFONT");
   if (path != NULL && *path)
     return RenderTextToScreen_Partial(path, color, text, x, y);
