@@ -1,0 +1,76 @@
+name: CMake Build for libcini
+
+on: [push]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+              name: "Ubuntu Latest GCC Release",
+              os: ubuntu-latest,
+              build_type: "Release",
+              build_gen: "Unix Makefiles",
+              shell: bash
+          }
+          - {
+              name: "macOS Latest Release",
+              os: macos-latest,
+              build_type: "Release",
+              build_gen: "Unix Makefiles",
+              shell: bash
+          }
+          - {
+              name: "Windows Latest MinGW Release",
+              os: windows-latest,
+              build_type: "Release",
+              build_gen: "MinGW Makefiles",
+              shell: msys2 {0}
+          }
+    defaults:
+      run:
+        shell: ${{ matrix.config.shell }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SDL2 (Ubuntu)
+        run: sudo apt install libsdl2-dev libsdl2-ttf-dev
+        if: matrix.config.os == 'ubuntu-latest'
+
+      - name: Install SDL2 (macOS)
+        run: brew install sdl2 sdl2_ttf
+        if: matrix.config.os == 'macos-latest'
+
+      - name: Install SDL2 (Windows)
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            git
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-make
+            mingw-w64-x86_64-nsis
+            mingw-w64-x86_64-SDL2
+            mingw-w64-x86_64-SDL2_ttf
+        if: matrix.config.os == 'windows-latest'
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+            -G "${{ matrix.config.build_gen }}"
+          cpack ..
+
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: "${{ matrix.config.name }} build artifacts"
+          path: build/libcini-*
