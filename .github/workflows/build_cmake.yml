@@ -64,9 +64,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
-            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
-            -G "${{ matrix.config.build_gen }}"
+          cmake -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.build_gen }}" ..
           cpack ..
 
       - name: Archive build artifacts
