@@ -6,6 +6,10 @@
 #ifndef FONTFILE
 #ifdef __linux__
 #define FONTFILE "/usr/share/libcini/font.ttf"
+#elif __APPLE__
+#define FONTFILE "/Library/Fonts/Arial Unicode.ttf"
+#elif _WIN32
+#define FONTFILE "C:/Windows/Fonts/Arial.ttf"
 #else
 #define FONTFILE "font.ttf"
 #endif
