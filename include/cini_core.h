@@ -1,5 +1,5 @@
-#ifndef _CINI_H_
-#define _CINI_H_
+#ifndef LIBCINI_CINI_CORE_H
+#define LIBCINI_CINI_CORE_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,7 +12,9 @@
 typedef char *string;
 
 typedef struct CINI_color {
-  uint8_t r; uint8_t g; uint8_t b;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
 } CINI_color;
 
-#endif
+#endif //LIBCINI_CINI_CORE_H
