@@ -1,4 +1,5 @@
 #include "cini_graphic.h"
+#include "font.h"
 
 #ifdef __APPLE__
 
@@ -653,7 +654,13 @@ int RenderTextToScreen_Partial(char *fontname, char *color, char *text, int x, i
     TXT_Color.g = c->g;
     TXT_Color.b = c->b;
     SDL_Surface *TTF_Message;
-    TTF_Font *font = TTF_OpenFont(fontname, 24);
+    TTF_Font *font;
+
+    if (fontname == NULL) {
+        font = TTF_OpenFontRW(SDL_RWFromConstMem(bitmap, sizeof(bitmap)), 1, 24);
+    } else {
+        font = TTF_OpenFont(fontname, 24);
+    }
 
     if (font == NULL) {
         fprintf(stderr, "Erreur: ne peut pas trouver la police '%s' (%s).\n",

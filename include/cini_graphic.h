@@ -3,17 +3,6 @@
 
 #include "cini_core.h"
 
-#ifndef FONTFILE
-#ifdef __linux__
-#define FONTFILE "/usr/share/libcini/font.ttf"
-#elif __APPLE__
-#define FONTFILE "/Library/Fonts/Arial Unicode.ttf"
-#elif _WIN32
-#define FONTFILE "C:/Windows/Fonts/Arial.ttf"
-#else
-#define FONTFILE "font.ttf"
-#endif
-#endif
 
 CINI_color *CINI_parse_color(char *color_str);
 
@@ -85,13 +74,12 @@ int RenderTextToScreen_Partial(char *fontname, char *color, char *text, int x, i
 #define NO_FUNCDEF
 
 int RenderTextToScreen(char *text, char *color, int x, int y) {
-#ifdef _WIN32
-    char *path = getenv ("CINIFONT");
-  if (path != NULL && *path)
-    return RenderTextToScreen_Partial(path, color, text, x, y);
-  else
-#endif
-    return RenderTextToScreen_Partial(FONTFILE, color, text, x, y);
+    char *path = getenv("CINIFONT");
+    if (path != NULL && *path) {
+        return RenderTextToScreen_Partial(path, color, text, x, y);
+    } else {
+        return RenderTextToScreen_Partial(NULL, color, text, x, y);
+    }
 }
 
 #endif
