@@ -7,9 +7,8 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIR}
 
 file(GLOB cini_SRC CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.c)
 file(GLOB cini_HEADER CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/*.h)
-file(GLOB cini_DATA CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/data/font.h)
 
-add_library(cini SHARED ${cini_SRC} ${cini_HEADER} ${cini_DATA})
+add_library(cini SHARED ${cini_SRC} ${cini_HEADER})
 target_link_libraries(cini ${SDL2_LIBRARY} ${SDL2_TTF_LIBRARIES})
 
 include(GNUInstallDirs)

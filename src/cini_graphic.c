@@ -1,5 +1,4 @@
 #include "cini_graphic.h"
-#include "font.h"
 
 #ifdef __APPLE__
 
@@ -656,8 +655,11 @@ int RenderTextToScreen_Partial(char *fontname, char *color, char *text, int x, i
     SDL_Surface *TTF_Message;
     TTF_Font *font;
 
+    extern const unsigned char bitmap[];
+    extern const int bitmap_size;
+
     if (fontname == NULL) {
-        font = TTF_OpenFontRW(SDL_RWFromConstMem(bitmap, sizeof(bitmap)), 1, 24);
+        font = TTF_OpenFontRW(SDL_RWFromConstMem(bitmap, bitmap_size), 1, 24);
     } else {
         font = TTF_OpenFont(fontname, 24);
     }
