@@ -39,12 +39,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install SDL2 (Ubuntu)
-        run: sudo apt install libsdl2-dev libsdl2-ttf-dev
+        run: |
+          sudo apt update
+          sudo apt install libsdl2-dev libsdl2-ttf-dev
         if: matrix.config.os == 'ubuntu-latest'
 
       - name: Install SDL2 (macOS)
         run: brew install sdl2 sdl2_ttf
-        if: matrix.config.os == 'macos-latest'
+        if: matrix.config.os == 'macos-11.0'
 
       - name: Install SDL2 (Windows)
         uses: msys2/setup-msys2@v2
