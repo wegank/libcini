@@ -19,7 +19,7 @@ jobs:
           }
           - {
               name: "macOS Latest Release",
-              os: macos-latest,
+              os: macos-11.0,
               build_type: "Release",
               build_gen: "Unix Makefiles",
               shell: bash
