@@ -19,7 +19,7 @@ jobs:
           }
           - {
               name: "macOS Latest Release",
-              os: macos-11.0,
+              os: macos-latest,
               build_type: "Release",
               build_gen: "Unix Makefiles",
               shell: bash
@@ -46,7 +46,7 @@ jobs:
 
       - name: Install SDL2 (macOS)
         run: brew install sdl2 sdl2_ttf
-        if: matrix.config.os == 'macos-11.0'
+        if: matrix.config.os == 'macos-latest'
 
       - name: Install SDL2 (Windows)
         uses: msys2/setup-msys2@v2
