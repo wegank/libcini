@@ -34,6 +34,8 @@ jobs:
     defaults:
       run:
         shell: ${{ matrix.config.shell }}
+    env:
+      SOURCE_DATE_EPOCH: 1550270997
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
